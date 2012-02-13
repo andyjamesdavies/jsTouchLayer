@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Touch Framework Example</title>
+  <style type="text/css">
+  		#triggerArea,
+		#logger {
+			display:block;
+			width:47%;
+			height:400px;
+			border:1px solid #333;
+			margin:0;
+		}
+	
+  		#triggerArea {
+			float:left;
+			margin-right:0.5%;
+  		}
+		
+		#logger {
+			float:right;
+			margin-left:0.5%;
+			overflow-y:auto;
+		}
+  </style>
+  <script src="http://172.27.64.88:8081/target/target-script-min.js#anonymous"></script>
+  <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="js/touchLayer.js"></script>
+  <script type="text/javascript" src="js/Tap.js"></script>
+  <script type="text/javascript" src="js/Swipe.js"></script>
+  <script type="text/javascript" src="js/Drag.js"></script>
+</head>
+<body>
+	<h1>Touch Framework experiments</h1>
+	
+	<div id="triggerArea"><br/><br/><br/><a href="#test">test click</a></div>
+	
+	<ul id="logger"></ul>
+	<script type="text/javascript">
+		var logger = document.getElementById('logger');
+		
+		new TouchLayer({
+			target: document.getElementById('triggerArea'),
+			onEvent: function (e, data) {
+				var element = document.createElement('li'),
+					str = e.type;
+
+				if (e.type === 'swipe' && data) {
+					str += ' direction:' + data.direction + ' deltaX:' + data.deltaX + ' deltaTime:' + data.deltaTime; 
+				}
+
+				element.innerHTML = str;
+				
+				if (logger.childNodes.length > 0) {
+					logger.insertBefore(element, logger.childNodes[0]);	
+				} else {
+					logger.appendChild(element);
+				}
+			}
+		});
+		
+	</script>
+</body>
+</html>
