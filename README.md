@@ -5,6 +5,7 @@ This project is heavily influenced by the Sencha Touch 1.1.1 framework. The main
 CAUTION: this is far from production ready and should be highly tested / modified before being such.
 
 ToDo:
+
 - Add mouse event fallbacks
 - Fix bug in Opera Mobile, drag / swipe are not firing.
 - Make fully independant of jquery.
