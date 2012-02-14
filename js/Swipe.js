@@ -21,19 +21,21 @@ TouchLayer.Swipe = function (options) {
 
 	return {
 		onTouchStart: function (e) {
-			startTime = e.timeStamp;
-			startX = e.pageX;
-			startY = e.pageY;
-			stopped = false;
-			TouchLayer.lock(['scroll', 'scrollstart', 'scrollend']);
+			if (e.touches[0]) { //e.pageX / pageY give 0 values in android
+				startTime = e.timeStamp;
+				startX = e.touches[0].pageX;
+				startY = e.touches[0].pageY;
+				stopped = false;
+				TouchLayer.lock(['scroll', 'scrollstart', 'scrollend']);
+			}
 		},
 		onTouchMove: function (e) {
-			if (!stopped) {
-				var deltaY = e.pageY - startY,
-				deltaX = e.pageX - startX,
-				absDeltaY = Math.abs(deltaY),
-				absDeltaX = Math.abs(deltaX),
-				deltaTime = e.timeStamp - startTime;
+			if (!stopped && e.touches[0]) { //e.pageX / pageY give 0 values in android
+				var deltaY = e.touches[0].pageY - startY,
+					deltaX = e.touches[0].pageX - startX,
+					absDeltaY = Math.abs(deltaY),
+					absDeltaX = Math.abs(deltaX),
+					deltaTime = e.timeStamp - startTime;
 
 				// If the swipeTime is over, we are not gonna check for it again
 				if (absDeltaY - absDeltaX > 3 || deltaTime > swipeTime) {

@@ -35,33 +35,39 @@ TouchLayer.Drag = function (options) {
 
 	return {
 		onTouchStart: function (e) {
-			startX = previousX = e.pageX;
-			startY = previousY = e.pageY;
-			startTime = previousTime = e.timeStamp;
-			console.log('touchstart');
-			dragging = false;
+			
+			if (e.touches[0]) {
+				startX = previousX = e.touches[0].pageX; 
+				previousX = startY = e.touches[0].pageY;
+				startTime = previousTime = e.timeStamp; 
+				previousTime = e.timeStamp;
+				dragging = false;
+			}
 		},
 		onTouchMove: function (e) {
-			var info = {
-					deltaY: e.pageY - startY,
-					deltaX: e.pageX - startX,
-					absDeltaY: 0,
-					absDeltaX: 0,
-					deltaTime: e.timeStamp - startTime
-				};
-				
-			info.absDeltaY = Math.abs(info.deltaY);
-			info.absDeltaX = Math.abs(info.deltaX);
 			
-			if (!dragging) {
-				if ((!e.touches || e.touches.length < 2) && isDragging(info)) {
-					dragging = true;
+			if (e.touches[0]) { //e.pageY / e.pageX returns 0 in android 
+				var info = {
+						deltaY: e.touches[0].pageY - startY,
+						deltaX: e.touches[0].pageX - startX,
+						absDeltaY: 0,
+						absDeltaX: 0,
+						deltaTime: e.timeStamp - startTime
+					};
 					
-					TouchLayer.fire('dragstart', target, e);
+				info.absDeltaY = Math.abs(info.deltaY);
+				info.absDeltaX = Math.abs(info.deltaX);
+				
+				if (!dragging) {
+					if ((!e.touches || e.touches.length < 2) && isDragging(info)) {
+						dragging = true;
+						
+						TouchLayer.fire('dragstart', target, e);
+						TouchLayer.fire('drag', target, e);
+					}
+				} else {
 					TouchLayer.fire('drag', target, e);
 				}
-			} else {
-				TouchLayer.fire('drag', target, e);
 			}
 		},
 		onTouchEnd: function (e) {
