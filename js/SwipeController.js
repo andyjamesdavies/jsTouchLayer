@@ -21,10 +21,11 @@ var TouchLayer_SwipeController = function (options) {
 	stopped = false;
 	
 	var onTouchStart = function (e) {
+		
 		if (e.originalEvent) {
 			e = e.originalEvent;
 		}
-		
+		 
 		e.preventDefault();
 		e.stopPropagation();
 		
@@ -62,7 +63,8 @@ var TouchLayer_SwipeController = function (options) {
 						direction: (deltaX < 0) ? 'left' : 'right',
 						distance: absDeltaX,
 						deltaTime: deltaTime,
-						deltaX: deltaX           
+						deltaX: deltaX,
+						deltaY: deltaY
 					};	
 				
 				if (options.eventName === 'swipe') {

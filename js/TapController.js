@@ -49,8 +49,8 @@ var TouchLayer_TapController = function (options) {
 
 	var isCancel = function (e) {
 		return (
-				Math.abs(e.pageX - startX) >= cancelThreshold ||
-				Math.abs(e.pageY - startY) >= cancelThreshold
+				Math.abs(e.touches[0].pageX - startX) >= cancelThreshold ||
+				Math.abs(e.touches[0].pageY - startY) >= cancelThreshold
 		);
 	};
 
@@ -63,8 +63,8 @@ var TouchLayer_TapController = function (options) {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		startX = e.pageX;
-		startY = e.pageY;
+		startX = e.touches[0].pageX;
+		startY = e.touches[0].pageY;
 		touchCancelled = false;
 
 		if (options.eventName === 'tapstart') {

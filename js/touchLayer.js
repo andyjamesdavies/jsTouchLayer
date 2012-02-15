@@ -15,15 +15,16 @@ var TouchLayer = function () {
 		    'swipe': TouchLayer_SwipeController
 		},
 	boundEvents = [];
-
+	
 	return {
 		bind: function (eventName, targetElem, callback) {
-			
+
 			if (!eventName || !targetElem || !callback) {
 				return;
 			}
 			
 			if (EventToClassMap[eventName]) {
+				
 				boundEvents[boundEvents.length] = new EventToClassMap[eventName]({
 					eventName: eventName,
 					el: targetElem,

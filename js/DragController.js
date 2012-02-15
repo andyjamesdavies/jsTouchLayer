@@ -41,7 +41,7 @@ var TouchLayer_DragController = function (options) {
 		
 		if (e.touches[0]) {
 			startX = previousX = e.touches[0].pageX; 
-			previousX = startY = e.touches[0].pageY;
+			startY = previousY = e.touches[0].pageY;
 			startTime = previousTime = e.timeStamp; 
 			previousTime = e.timeStamp;
 			dragging = false;
@@ -58,6 +58,10 @@ var TouchLayer_DragController = function (options) {
 		
 		if (e.touches[0]) { //e.pageY / e.pageX returns 0 in android 
 			var info = {
+					startX: startX,
+					startY: startY,
+					prevX: previousX,
+					prevY: previousY,
 					deltaY: e.touches[0].pageY - startY,
 					deltaX: e.touches[0].pageX - startX,
 					absDeltaY: 0,
@@ -82,6 +86,9 @@ var TouchLayer_DragController = function (options) {
 			if (options.eventName === 'drag') {
 				var dataDrag = mainController.makeReturnData(e, options.el, info);
 				mainController.fire('drag', options.callback, dataDrag);
+				
+				previousX = e.touches[0].pageX;
+				previousY = e.touches[0].pageY;
 			}
 		}
 	};
