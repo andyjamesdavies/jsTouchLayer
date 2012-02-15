@@ -24,12 +24,13 @@
 			overflow-y:auto;
 		}
   </style>
-  <script src="http://172.27.64.88:8081/target/target-script-min.js#anonymous"></script>
-  <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="js/touchLayer.js"></script>
-  <script type="text/javascript" src="js/Tap.js"></script>
-  <script type="text/javascript" src="js/Swipe.js"></script>
-  <script type="text/javascript" src="js/Drag.js"></script>
+  
+  <script src="http://172.27.64.55:8081/target/target-script-min.js#anonymous"></script>
+  <script type="text/javascript" src="js/TouchLayerController.js"></script>
+  <script type="text/javascript" src="js/TapController.js"></script>
+  <script type="text/javascript" src="js/DragController.js"></script>
+  <script type="text/javascript" src="js/SwipeController.js"></script>
+  <script type="text/javascript" src="js/TouchLayer.js"></script>
 </head>
 <body>
 	<h1>Touch Framework experiments</h1>
@@ -39,15 +40,16 @@
 	<ul id="logger"></ul>
 	<script type="text/javascript">
 		var logger = document.getElementById('logger');
-		
-		new TouchLayer({
-			target: document.getElementById('triggerArea'),
-			onEvent: function (e, data) {
-				var element = document.createElement('li'),
-					str = e.type;
+		var target = document.getElementById('triggerArea');
+		var touchLayer = new TouchLayer();
 
-				if (e.type === 'swipe' && data) {
-					str += ' direction:' + data.direction + ' deltaX:' + data.deltaX + ' deltaTime:' + data.deltaTime; 
+		var callback = function(event) {
+			console.log(event);
+			var element = document.createElement('li'),
+				str = event.type;
+
+				if (event.type === 'swipe' && event.data) {
+					str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
 				}
 
 				element.innerHTML = str;
@@ -57,9 +59,20 @@
 				} else {
 					logger.appendChild(element);
 				}
-			}
-		});
+		};
+
+		touchLayer.bind('tapstart', target, callback);
+		touchLayer.bind('tapcancel', target, callback);
+		touchLayer.bind('tap', target, callback);
+		touchLayer.bind('taphold', target, callback);
+		touchLayer.bind('doubletap', target, callback);
+		touchLayer.bind('singletap', target, callback);
 		
+		touchLayer.bind('drag', target, callback);
+		touchLayer.bind('dragstart', target, callback);
+		touchLayer.bind('dragend', target, callback);
+		
+		touchLayer.bind('swipe', target, callback);
 	</script>
 </body>
 </html>
