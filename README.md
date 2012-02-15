@@ -7,8 +7,6 @@ CAUTION: this is far from production ready and should be highly tested / modifie
 ToDo:
 
 - Add mouse event fallbacks
-- Fix bug in Opera Mobile, drag / swipe are not firing.
-- Make fully independant of jquery.
 - Test on lots of devices
 
 JS Touch Layer may be freely distributed under the MIT license.
