@@ -13,7 +13,7 @@ var TouchLayer_DragController = function (options) {
 
 	var mainController = new TouchLayer_Controller(),
 	runOnBubble = false,
-	dragThreshold = 100,
+	dragThreshold = 10,
 	horizontal = true,
 	vertical = true,
 	startX = 0,
@@ -58,11 +58,10 @@ var TouchLayer_DragController = function (options) {
 		startTime = previousTime = e.timeStamp; 
 		previousTime = e.timeStamp;
 		dragging = false;
-		touchStart = true;
 	};
 	
 	var onTouchMove = function (e) {
-		if (touchStart) {
+		if (startX && startY) {
 			if (e.originalEvent) {
 				e = e.originalEvent;
 			}
@@ -107,7 +106,7 @@ var TouchLayer_DragController = function (options) {
 					}
 				}
 	
-				if (options.eventName === 'drag') {
+				if (options.eventName === 'drag' && dragging) {
 					var dataDrag = mainController.makeReturnData(e, options.el, info);
 					mainController.fire('drag', options.callback, dataDrag);
 					
