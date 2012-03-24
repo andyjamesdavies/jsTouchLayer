@@ -6,11 +6,11 @@
  * @created 2012-02-06 
  */
 var TouchLayer_SwipeController = function (options) {
-	
+
 	if (!options.eventName || !options.el || !options.callback) {
 		return;
 	}
-	
+
 	var mainController = new TouchLayer_Controller(),
 	runOnBubble = false,
 	startTime = null,
@@ -20,45 +20,56 @@ var TouchLayer_SwipeController = function (options) {
 	swipeTime = 1000,
 	stopped = false,
 	preventDefault = true;
-	
+
 	if (options.preventDefault !== undefined) {
 		preventDefault = options.preventDefault;
 	}
-	
+
 	var onTouchStart = function (e) {
-		
+
 		if (e.originalEvent) {
 			e = e.originalEvent;
 		}
-		
+
 		if (preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();		
 		}
 
-		
-		if (e.touches[0]) { //e.pageX / pageY give 0 values in android
-			startTime = e.timeStamp;
+		if (e.touches) { //e.pageX / pageY give 0 values in android
 			startX = e.touches[0].pageX;
 			startY = e.touches[0].pageY;
-			stopped = false;
+		} else if (e.pageX && e.pageY) {
+			startX = e.pageX;
+			startY = e.pageY;
 		}
+
+		startTime = e.timeStamp;
+		stopped = false;
 	};
-	
+
 	var onTouchMove = function (e) {
 		if (e.originalEvent) {
 			e = e.originalEvent;
 		}
-		
+
 		if (preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();
 		}
-		
-		if (!stopped && e.touches[0]) { //e.pageX / pageY give 0 values in android
-			var deltaY = e.touches[0].pageY - startY,
-				deltaX = e.touches[0].pageX - startX,
-				absDeltaY = Math.abs(deltaY),
+
+		var deltaX = null,
+			deltaY = null;
+		if (e.touches) { //e.pageX / pageY give 0 values in android
+			deltaY = e.touches[0].pageY - startY;
+			deltaX = e.touches[0].pageX - startX;	
+		} else if (e.pageX && e.pageY) {
+			deltaY = e.pageY - startY;
+			deltaX = e.pageX - startX;
+		}
+
+		if (deltaX && deltaY) {
+			var absDeltaY = Math.abs(deltaY),
 				absDeltaX = Math.abs(deltaX),
 				deltaTime = e.timeStamp - startTime;
 
@@ -75,19 +86,21 @@ var TouchLayer_SwipeController = function (options) {
 						deltaX: deltaX,
 						deltaY: deltaY
 					};	
-				
+
 				if (options.eventName === 'swipe') {
 					var data = mainController.makeReturnData(e, options.el, info);
 					mainController.fire('swipe', options.callback, data);
-					
-					e.preventDefault();
-					e.stopPropagation();
+
+					if (preventDefault) {
+						e.preventDefault();
+						e.stopPropagation();
+					}
 				}
 				stopped = true;
 			}
 		}
 	};
-	
+
 	mainController.bind(options.el, 'touchstart', onTouchStart, runOnBubble);
 	mainController.bind(options.el, 'touchmove', onTouchMove, runOnBubble);
 };

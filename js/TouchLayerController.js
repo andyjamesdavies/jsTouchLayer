@@ -1,3 +1,5 @@
+/*jslint eqeqeq: true, undef: true */
+/*global document */
 var TouchLayer_Controller = function () {
 	
 	var lockedEvents = [];
@@ -5,6 +7,12 @@ var TouchLayer_Controller = function () {
 	var isLocked = function (event) {
 		return (lockedEvents[event] !== undefined);
 	};
+	
+	var touchHandlers = {
+	        touchstart  : 'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
+	        touchmove   : 'ontouchmove' in document.documentElement ? 'touchmove' : 'mousemove',
+	        touchend    : 'ontouchend' in document.documentElement ? 'touchend' : 'mouseup'
+		};
 	
 	return {
 		bind: function (thisEl, eventName, callback, callOnBubble) {
@@ -18,7 +26,9 @@ var TouchLayer_Controller = function () {
 				callThisOnBubble = callOnBubble;
 			}
 			
-		    thisEl.addEventListener(eventName, callback, callThisOnBubble);
+			if (touchHandlers[eventName] !== undefined) {
+				thisEl.addEventListener(touchHandlers[eventName], callback, callThisOnBubble);
+			}
 		},
 		fire: function (eventName, callback, data) {
 			if (!eventName || !callback) {

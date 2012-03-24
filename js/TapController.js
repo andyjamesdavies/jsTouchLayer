@@ -53,9 +53,20 @@ var TouchLayer_TapController = function (options) {
 	};
 
 	var isCancel = function (e) {
+
+		var ePageX = 0,
+			ePageY = 0;
+		if (e.touches !== undefined) {
+			ePageX = e.touches[0].pageX;
+			ePageY = e.touches[0].pageY;
+		} else if (e.pageX && e.pageY) {
+			ePageX = e.pageX;
+			ePageY = e.pageY;
+		}
+		
 		return (
-				Math.abs(e.touches[0].pageX - startX) >= cancelThreshold ||
-				Math.abs(e.touches[0].pageY - startY) >= cancelThreshold
+				Math.abs(ePageX - startX) >= cancelThreshold ||
+				Math.abs(ePageY - startY) >= cancelThreshold
 		);
 	};
 
@@ -70,8 +81,13 @@ var TouchLayer_TapController = function (options) {
 			e.stopPropagation();		
 		}
 		
-		startX = e.touches[0].pageX;
-		startY = e.touches[0].pageY;
+		if (e.touches !== undefined) {
+			startX = e.touches[0].pageX;
+			startY = e.touches[0].pageY;
+		} else if (e.pageX && e.pageY) {
+			startX = e.pageX;
+			startY = e.pageY;
+		}
 		touchCancelled = false;
 
 		if (options.eventName === 'tapstart') {
@@ -99,7 +115,7 @@ var TouchLayer_TapController = function (options) {
 			e.stopPropagation();		
 		}
 
-		if (isCancel(e) && !touchCancelled) {
+		if (isCancel(e) && !touchCancelled && ((startX + startY) > 0)) {
 			if (options.eventName === 'tapcancel') {
 				var data = mainController.makeReturnData(e, options.el);
 				mainController.fire('tapcancel', options.callback, data);
@@ -153,6 +169,7 @@ var TouchLayer_TapController = function (options) {
 				timeout = null;
 			}
 		}
+		touchCancelled = true; //stops mouse move unnecessarily firing tapcancel
 	};
 
 	mainController.bind(options.el, 'touchstart', onTouchStart, runOnBubble);
