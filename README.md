@@ -1,4 +1,4 @@
-#JS Touch Layer v0.2.0
+#JS Touch Layer v0.2.1
 
 JS Touch Layer is a javascript framework that abstracts away the decision of what the gesture is. It will decide for you if a tap is a tap, or a swipe is a swipe. Allowing you to bind your functions to these events without any worry.
 
@@ -10,6 +10,9 @@ ToDo:
 
 - Add gestures: Pinch / Spread
 - Test on lots of devices
+
+v0.2.1
+- Fixed dragging sensitivity
 
 v0.2.0
 
