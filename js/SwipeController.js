@@ -18,16 +18,24 @@ var TouchLayer_SwipeController = function (options) {
 	startY = null,
 	swipeThreshold = 35,
 	swipeTime = 1000,
-	stopped = false;
+	stopped = false,
+	preventDefault = true;
+	
+	if (options.preventDefault !== undefined) {
+		preventDefault = options.preventDefault;
+	}
 	
 	var onTouchStart = function (e) {
 		
 		if (e.originalEvent) {
 			e = e.originalEvent;
 		}
-		 
-		e.preventDefault();
-		e.stopPropagation();
+		
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
+
 		
 		if (e.touches[0]) { //e.pageX / pageY give 0 values in android
 			startTime = e.timeStamp;
@@ -42,8 +50,10 @@ var TouchLayer_SwipeController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 		
 		if (!stopped && e.touches[0]) { //e.pageX / pageY give 0 values in android
 			var deltaY = e.touches[0].pageY - startY,
@@ -69,6 +79,9 @@ var TouchLayer_SwipeController = function (options) {
 				if (options.eventName === 'swipe') {
 					var data = mainController.makeReturnData(e, options.el, info);
 					mainController.fire('swipe', options.callback, data);
+					
+					e.preventDefault();
+					e.stopPropagation();
 				}
 				stopped = true;
 			}

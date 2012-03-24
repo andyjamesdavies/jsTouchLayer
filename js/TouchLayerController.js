@@ -1,5 +1,3 @@
-
-
 var TouchLayer_Controller = function () {
 	
 	var lockedEvents = [];

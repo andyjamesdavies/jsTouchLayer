@@ -22,7 +22,12 @@ var TouchLayer_TapController = function (options) {
 	timeout = null,
 	startX = null,
 	startY = null,
-	touchCancelled = false;
+	touchCancelled = false,
+	preventDefault = true;
+	
+	if (options.preventDefault !== undefined) {
+		preventDefault = options.preventDefault;
+	}
 
 	var fireTapEvent = function (e) {
 
@@ -60,8 +65,10 @@ var TouchLayer_TapController = function (options) {
 			e = e.originalEvent;
 		}
 
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 		
 		startX = e.touches[0].pageX;
 		startY = e.touches[0].pageY;
@@ -87,8 +94,10 @@ var TouchLayer_TapController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 
 		if (isCancel(e) && !touchCancelled) {
 			if (options.eventName === 'tapcancel') {
@@ -108,8 +117,10 @@ var TouchLayer_TapController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 		
 		if (!touchCancelled) {
 
@@ -148,5 +159,3 @@ var TouchLayer_TapController = function (options) {
 	mainController.bind(options.el, 'touchmove', onTouchMove, runOnBubble);
 	mainController.bind(options.el, 'touchend', onTouchEnd, runOnBubble);
 };
-
-

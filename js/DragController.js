@@ -13,7 +13,7 @@ var TouchLayer_DragController = function (options) {
 
 	var mainController = new TouchLayer_Controller(),
 	runOnBubble = false,
-	dragThreshold = 5,
+	dragThreshold = 100,
 	horizontal = true,
 	vertical = true,
 	startX = 0,
@@ -22,7 +22,12 @@ var TouchLayer_DragController = function (options) {
 	previousY = 0,
 	startTime = '',
 	previousTime = '',
-	dragging = false;
+	dragging = false,
+	preventDefault = true;
+	
+	if (options.preventDefault !== undefined) {
+		preventDefault = options.preventDefault;
+	}
 	
 	var isDragging = function (info) {
 		return (
@@ -36,8 +41,10 @@ var TouchLayer_DragController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 		
 		if (e.touches[0]) {
 			startX = previousX = e.touches[0].pageX; 
@@ -53,8 +60,10 @@ var TouchLayer_DragController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 		
 		if (e.touches[0]) { //e.pageY / e.pageX returns 0 in android 
 			var info = {
@@ -98,8 +107,10 @@ var TouchLayer_DragController = function (options) {
 			e = e.originalEvent;
 		}
 		
-		e.preventDefault();
-		e.stopPropagation();
+		if (preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();		
+		}
 		
 		if (dragging) {
 			if (options.eventName === 'dragend') {

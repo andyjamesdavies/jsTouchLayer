@@ -17,19 +17,23 @@ var TouchLayer = function () {
 	boundEvents = [];
 	
 	return {
-		bind: function (eventName, targetElem, callback) {
+		bind: function (eventName, targetElem, callback, options) {
 
 			if (!eventName || !targetElem || !callback) {
 				return;
 			}
 			
+			if (!options) {
+				options = {};
+			}
+			
 			if (EventToClassMap[eventName]) {
 				
-				boundEvents[boundEvents.length] = new EventToClassMap[eventName]({
-					eventName: eventName,
-					el: targetElem,
-					callback: callback
-				});
+				options.eventName = eventName;
+				options.el = targetElem;
+				options.callback = callback;
+				
+				boundEvents[boundEvents.length] = new EventToClassMap[eventName](options);
 			}
 		}
 	};
