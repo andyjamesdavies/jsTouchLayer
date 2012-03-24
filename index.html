@@ -35,6 +35,7 @@
 			height:400px;
 			border:1px solid #333;
 			margin:0;
+			padding:2%;
 		}
 	
   		#triggerArea {
@@ -76,49 +77,50 @@
     <p>Twitter - @andyjamesdavies</p>
   
     <h2>Example Usage</h2>
-    
+    <!-- Start Example Code -->
     <div id="triggerArea">Touch Here</div>
+    <ul id="logger"></ul>
   
-	  <ul id="logger"></ul>
-  
-  <script type="text/javascript" src="https://raw.github.com/andyjamesdavies/jsTouchLayer/master/jsTouchLayer.min.js"></script>
-	<script type="text/javascript">
-		var logger = document.getElementById('logger');
-		var target = document.getElementById('triggerArea');
-		var touchLayer = new TouchLayer();
+    <script type="text/javascript" src="https://raw.github.com/andyjamesdavies/jsTouchLayer/master/jsTouchLayer.min.js"></script>
+    <script type="text/javascript">
+        var logger = document.getElementById('logger');
+        var target = document.getElementById('triggerArea');
+        var touchLayer = new TouchLayer();
 
-		var callback = function(event) {
-			console.log(event);
-			var element = document.createElement('li'),
-				str = event.type;
+	var callback = function(event) {
+		console.log(event);
+		var element = document.createElement('li'),
+		str = event.type;
 
-				if (event.type === 'swipe' && event.data) {
-					str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
-				}
+		if (event.type === 'swipe' && event.data) {
+			str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
+		}
 
-				element.innerHTML = str;
+		element.innerHTML = str;
 				
-				if (logger.childNodes.length > 0) {
-					logger.insertBefore(element, logger.childNodes[0]);	
-				} else {
-					logger.appendChild(element);
-				}
-		};
+		if (logger.childNodes.length > 0) {
+			logger.insertBefore(element, logger.childNodes[0]);	
+		} else {
+			logger.appendChild(element);
+		}
+	};
 
-		touchLayer.bind('tapstart', target, callback);
-		touchLayer.bind('tapcancel', target, callback);
-		touchLayer.bind('tap', target, callback);
-		touchLayer.bind('taphold', target, callback);
-		touchLayer.bind('doubletap', target, callback);
-		touchLayer.bind('singletap', target, callback);
+	touchLayer.bind('tapstart', target, callback);
+	touchLayer.bind('tapcancel', target, callback);
+	touchLayer.bind('tap', target, callback);
+	touchLayer.bind('taphold', target, callback);
+	touchLayer.bind('doubletap', target, callback);
+	touchLayer.bind('singletap', target, callback);
 		
-		touchLayer.bind('drag', target, callback);
-		touchLayer.bind('dragstart', target, callback);
-		touchLayer.bind('dragend', target, callback);
+	touchLayer.bind('drag', target, callback);
+	touchLayer.bind('dragstart', target, callback);
+	touchLayer.bind('dragend', target, callback);
 		
-		touchLayer.bind('swipe', target, callback);
-	</script>
-  </div>
+	touchLayer.bind('swipe', target, callback);
+    </script>
+    <!-- END EXAMPLE CODE -->
+ </div>
+ 
  <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
