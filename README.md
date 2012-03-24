@@ -12,8 +12,10 @@ ToDo:
 - Test on lots of devices
 
 v0.2.0
+
 - Added mouse event fallback
 - Added minified version
 
 v0.1.0
+
 - Initial Build of project
