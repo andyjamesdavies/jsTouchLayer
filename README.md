@@ -1,12 +1,13 @@
-#JS Touch Layer
+#JS Touch Layer v0.1.0
 
-This project is heavily influenced by the Sencha Touch 1.1.1 gesture framework. The main purpose of this project is to try and get a framework independant of any libraries that will fire events on gestures such as drag, swipe, tap / double tap etc...
+JS Touch Layer is a javascript framework that abstracts away the decision of what the gesture is. It will decide for you if a tap is a tap, or a swipe is a swipe. Allowing you to bind your functions to these events without any worry.
+
+JS Touch Layer may be freely distributed under the MIT license.
 
 CAUTION: this is far from production ready and should be highly tested / modified before being such.
 
 ToDo:
 
 - Add mouse event fallbacks
+- Add gestures: Pinch / Spread
 - Test on lots of devices
-
-JS Touch Layer may be freely distributed under the MIT license.

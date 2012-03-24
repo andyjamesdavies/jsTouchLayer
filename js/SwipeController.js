@@ -53,8 +53,7 @@ var TouchLayer_SwipeController = function (options) {
 				deltaTime = e.timeStamp - startTime;
 
 			// If the swipeTime is over, we are not gonna check for it again
-			if (absDeltaY - absDeltaX > 3 || deltaTime > swipeTime) {
-//				TouchLayer.unlock(['drag', 'dragstart', 'dragend']);			
+			if (absDeltaY - absDeltaX > 3 || deltaTime > swipeTime) {		
 				stopped = true;
 
 			} else if (absDeltaX > swipeThreshold && absDeltaX > absDeltaY) {
