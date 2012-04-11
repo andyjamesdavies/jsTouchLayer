@@ -175,4 +175,12 @@ var TouchLayer_TapController = function (options) {
 	mainController.bind(options.el, 'touchstart', onTouchStart, runOnBubble);
 	mainController.bind(options.el, 'touchmove', onTouchMove, runOnBubble);
 	mainController.bind(options.el, 'touchend', onTouchEnd, runOnBubble);
+	
+	return {
+		unbind: function  () {
+			mainController.unbind(options.el, 'touchstart', onTouchStart);
+			mainController.unbind(options.el, 'touchmove', onTouchMove);
+			mainController.unbind(options.el, 'touchend', onTouchEnd);
+		}
+	};
 };

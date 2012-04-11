@@ -30,7 +30,7 @@
   <script type="text/javascript" src="js/TapController.js"></script>
   <script type="text/javascript" src="js/DragController.js"></script>
   <script type="text/javascript" src="js/SwipeController.js"></script>
-  <script type="text/javascript" src="js/TouchLayer.js"></script>
+  <script type="text/javascript" src="js/touchLayer.js"></script>
 </head>
 <body>
 	<h1>Touch Framework experiments</h1>
@@ -42,9 +42,11 @@
 		var logger = document.getElementById('logger');
 		var target = document.getElementById('triggerArea');
 		var touchLayer = new TouchLayer();
-
+		var id = 0;
+		
 		var callback = function(event) {
 			console.log(event);
+			
 			var element = document.createElement('li'),
 				str = event.type;
 
@@ -59,11 +61,15 @@
 				} else {
 					logger.appendChild(element);
 				}
+				
+			touchLayer.unbind(id);
 		};
 
 		touchLayer.bind('tapstart', target, callback);
 		touchLayer.bind('tapcancel', target, callback);
-		touchLayer.bind('tap', target, callback);
+		
+		id = touchLayer.bind('tap', target, callback);
+		
 		touchLayer.bind('taphold', target, callback);
 		touchLayer.bind('doubletap', target, callback);
 		touchLayer.bind('singletap', target, callback);

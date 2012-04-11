@@ -33,7 +33,15 @@ var TouchLayer = function () {
 				options.el = targetElem;
 				options.callback = callback;
 				
-				boundEvents[boundEvents.length] = new EventToClassMap[eventName](options);
+				var id = boundEvents.length;
+				boundEvents[id] = new EventToClassMap[eventName](options);
+				return id;
+			}
+		},
+		unbind: function (id) {
+			if (boundEvents[id] !== null) {
+				boundEvents[id].unbind();
+				boundEvents[id] = null;
 			}
 		}
 	};

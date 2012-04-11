@@ -30,6 +30,15 @@ var TouchLayer_Controller = function () {
 				thisEl.addEventListener(touchHandlers[eventName], callback, callThisOnBubble);
 			}
 		},
+		unbind: function (thisEl, eventName, callback) {
+			if (!thisEl || !eventName || !callback) {
+				return;
+			}
+			
+			if (touchHandlers[eventName] !== undefined) {
+				thisEl.removeEventListener(touchHandlers[eventName], callback);
+			}
+		},
 		fire: function (eventName, callback, data) {
 			if (!eventName || !callback) {
 				return;

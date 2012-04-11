@@ -103,4 +103,11 @@ var TouchLayer_SwipeController = function (options) {
 
 	mainController.bind(options.el, 'touchstart', onTouchStart, runOnBubble);
 	mainController.bind(options.el, 'touchmove', onTouchMove, runOnBubble);
+	
+	return {
+		unbind: function  () {
+			mainController.unbind(options.el, 'touchstart', onTouchStart);
+			mainController.unbind(options.el, 'touchmove', onTouchMove);
+		}
+	};
 };
