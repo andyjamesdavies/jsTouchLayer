@@ -41,16 +41,16 @@ var TouchLayer_DragController = function (options) {
 		if (e.originalEvent) {
 			e = e.originalEvent;
 		}
-		
+
 		if (preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();		
 		}
-		
-		if (e.touches) {
+
+		if (e.touches !== undefined) {
 			startX = previousX = e.touches[0].pageX; 
 			startY = previousY = e.touches[0].pageY;
-		} else if (e.startX && e.startY) {
+		} else if (e.pageX && e.pageY) {
 			startX = previousX = e.pageX;
 			startY = previousY = e.pageY;
 		}
@@ -61,11 +61,12 @@ var TouchLayer_DragController = function (options) {
 	};
 	
 	var onTouchMove = function (e) {
+		
 		if (startX && startY) {
 			if (e.originalEvent) {
 				e = e.originalEvent;
 			}
-			
+
 			if (preventDefault) {
 				e.preventDefault();
 				e.stopPropagation();		
@@ -140,6 +141,7 @@ var TouchLayer_DragController = function (options) {
 		}
 		dragging = false;
 		touchStart = false;
+		startX = startY = null;
 	};
 	
 	mainController.bind(options.el, 'touchstart', onTouchStart, runOnBubble);

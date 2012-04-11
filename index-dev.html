@@ -62,13 +62,13 @@
 					logger.appendChild(element);
 				}
 				
-			touchLayer.unbind(id);
+			//touchLayer.unbind(id);
 		};
 
 		touchLayer.bind('tapstart', target, callback);
 		touchLayer.bind('tapcancel', target, callback);
 		
-		id = touchLayer.bind('tap', target, callback);
+		touchLayer.bind('tap', target, callback);
 		
 		touchLayer.bind('taphold', target, callback);
 		touchLayer.bind('doubletap', target, callback);
