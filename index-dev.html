@@ -52,6 +52,8 @@
 
 				if (event.type === 'swipe' && event.data) {
 					str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
+				} else if (event.type === 'drag' && event.data) {
+					str += ' direction:' + event.data.direction;
 				}
 
 				element.innerHTML = str;
@@ -75,6 +77,7 @@
 		touchLayer.bind('singletap', target, callback);
 		
 		touchLayer.bind('drag', target, callback);
+		touchLayer.bind('twofingerdrag', target, callback);
 		touchLayer.bind('dragstart', target, callback);
 		touchLayer.bind('dragend', target, callback);
 		

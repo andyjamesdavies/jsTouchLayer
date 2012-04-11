@@ -45,6 +45,8 @@
 
 				if (event.type === 'swipe' && event.data) {
 					str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
+				} else if (event.type === 'drag' && event.data) {
+					str += ' direction:' + event.data.direction;
 				}
 
 				element.innerHTML = str;

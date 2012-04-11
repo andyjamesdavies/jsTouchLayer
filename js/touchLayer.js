@@ -10,6 +10,7 @@ var TouchLayer = function () {
 		    'taphold': TouchLayer_TapController,
 		    'singletap': TouchLayer_TapController,
 		    'drag': TouchLayer_DragController,
+		    'twofingerdrag': TouchLayer_DragController,
 		    'dragstart': TouchLayer_DragController,
 		    'dragend': TouchLayer_DragController,
 		    'swipe': TouchLayer_SwipeController

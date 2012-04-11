@@ -77,6 +77,7 @@ var TouchLayer_DragController = function (options) {
 					startY: startY,
 					prevX: previousX,
 					prevY: previousY,
+					direction: null,
 					deltaY : 0,
 					deltaX : 0,
 					absDeltaY: 0,
@@ -92,14 +93,16 @@ var TouchLayer_DragController = function (options) {
 				info.deltaX = e.pageX - startX;
 			}
 			
+			info.direction = (info.deltaY < 0) ? 'up' : 'down';
+			
 			if (info !== undefined) {
 				info.absDeltaY = Math.abs(info.deltaY);
 				info.absDeltaX = Math.abs(info.deltaX);
 		
 				if (!dragging) {
-					if ((!e.touches || e.touches.length < 2) && isDragging(info)) {
+					if ((!e.touches || e.touches.length < 3) && isDragging(info)) {
 						dragging = true;
-		
+
 						if (options.eventName === 'dragstart') {
 							var dataStart = mainController.makeReturnData(e, options.el, info);
 							mainController.fire('dragstart', options.callback, dataStart);
@@ -107,10 +110,17 @@ var TouchLayer_DragController = function (options) {
 					}
 				}
 	
-				if (options.eventName === 'drag' && dragging) {
-					var dataDrag = mainController.makeReturnData(e, options.el, info);
-					mainController.fire('drag', options.callback, dataDrag);
+				if (dragging) {
+					var dataDrag = null;
 					
+					if (options.eventName === 'drag' && (!e.touches || e.touches.length < 2)) {
+						dataDrag = mainController.makeReturnData(e, options.el, info);
+						mainController.fire('drag', options.callback, dataDrag);
+					} else if (options.eventName === 'twofingerdrag' && (e.touches && e.touches.length == 2)) {
+						dataDrag = mainController.makeReturnData(e, options.el, info);
+						mainController.fire('twofingerdrag', options.callback, dataDrag);
+					}
+				
 					if (e.touches) {
 						previousX = e.touches[0].pageX;
 						previousY = e.touches[0].pageY;
