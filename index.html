@@ -59,9 +59,9 @@
     <h1><a href="https://github.com/andyjamesdavies/jsTouchLayer">jsTouchLayer</a></h1>
 
     <p>
-      You can download v0.2.1 
-      <a href="https://github.com/andyjamesdavies/jsTouchLayer/zipball/v0.2.1">zip</a> or
-      <a href="https://github.com/andyjamesdavies/jsTouchLayer/tarball/v0.2.1">tar</a> formats.
+      You can download v0.3.0
+      <a href="https://github.com/andyjamesdavies/jsTouchLayer/zipball/v0.3.0">zip</a> or
+      <a href="https://github.com/andyjamesdavies/jsTouchLayer/tarball/v0.3.0">tar</a> formats.
     </p>
 
     <div class="description">
@@ -86,6 +86,7 @@
         var logger = document.getElementById('logger');
         var target = document.getElementById('triggerArea');
         var touchLayer = new TouchLayer();
+	var id = null;
 
 	var callback = function(event) {
 		console.log(event);
@@ -94,6 +95,8 @@
 
 		if (event.type === 'swipe' && event.data) {
 			str += ' direction:' + event.data.direction + ' deltaX:' + event.data.deltaX + ' deltaTime:' + event.data.deltaTime; 
+		} else if ((event.type === 'drag' || event.type === 'twofingerdrag') && event.data) {
+			str += ' direction:' + event.data.direction;
 		}
 
 		element.innerHTML = str;
@@ -103,16 +106,21 @@
 		} else {
 			logger.appendChild(element);
 		}
+		
+		if (id !== null) {
+			//touchLayer.unbind(id);
+		}
 	};
 
 	touchLayer.bind('tapstart', target, callback);
 	touchLayer.bind('tapcancel', target, callback);
-	touchLayer.bind('tap', target, callback);
+	id = touchLayer.bind('tap', target, callback);
 	touchLayer.bind('taphold', target, callback);
 	touchLayer.bind('doubletap', target, callback);
 	touchLayer.bind('singletap', target, callback);
 		
 	touchLayer.bind('drag', target, callback);
+	touchlayer.bind('twofingerdrag', target, callback);
 	touchLayer.bind('dragstart', target, callback);
 	touchLayer.bind('dragend', target, callback);
 		
