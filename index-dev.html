@@ -81,7 +81,7 @@
 		touchLayer.bind('dragstart', target, callback);
 		touchLayer.bind('dragend', target, callback);
 		
-		touchLayer.bind('swipe', target, callback);
+		touchLayer.bind('swipe', target, callback, { swipeVertical: true });
 	</script>
 </body>
 </html>

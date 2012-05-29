@@ -19,10 +19,15 @@ var TouchLayer_SwipeController = function (options) {
 	swipeThreshold = 105,
 	swipeTime = 1000,
 	stopped = false,
-	preventDefault = true;
+	preventDefault = true,
+	swipeVertical = false;
 
 	if (options.preventDefault !== undefined) {
 		preventDefault = options.preventDefault;
+	}
+	
+	if (options.swipeVertical !== undefined) {
+		swipeVertical = options.swipeVertical;
 	}
 
 	var onTouchStart = function (e) {
@@ -73,15 +78,17 @@ var TouchLayer_SwipeController = function (options) {
 			if (deltaX && deltaY) {
 				var absDeltaY = Math.abs(deltaY),
 					absDeltaX = Math.abs(deltaX),
-					deltaTime = e.timeStamp - startTime;
+					deltaTime = e.timeStamp - startTime,
+					data = null,
+					info = {};
 	
 				// If the swipeTime is over, we are not gonna check for it again
-				if (absDeltaY - absDeltaX > 3 || deltaTime > swipeTime) {		
+				if (deltaTime > swipeTime) {		
 					stopped = true;
 	
 				} else if (absDeltaX > swipeThreshold && absDeltaX > absDeltaY) {
 					// If this is a swipe, a scroll is not possible anymore
-					var info = {
+					info = {
 							direction: (deltaX < 0) ? 'left' : 'right',
 							distance: absDeltaX,
 							deltaTime: deltaTime,
@@ -90,7 +97,26 @@ var TouchLayer_SwipeController = function (options) {
 						};	
 	
 					if (options.eventName === 'swipe') {
-						var data = mainController.makeReturnData(e, options.el, info);
+						data = mainController.makeReturnData(e, options.el, info);
+						mainController.fire('swipe', options.callback, data);
+	
+						if (preventDefault) {
+							e.preventDefault();
+							e.stopPropagation();
+						}
+					}
+					stopped = true;
+				} else if (swipeVertical && absDeltaY > swipeThreshold && absDeltaY > absDeltaX) {
+					info = {
+							direction: (deltaY < 0) ? 'up' : 'down',
+							distance: absDeltaY,
+							deltaTime: deltaTime,
+							deltaX: deltaX,
+							deltaY: deltaY
+						};	
+	
+					if (options.eventName === 'swipe') {
+						data = mainController.makeReturnData(e, options.el, info);
 						mainController.fire('swipe', options.callback, data);
 	
 						if (preventDefault) {
