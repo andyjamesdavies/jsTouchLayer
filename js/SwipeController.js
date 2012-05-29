@@ -86,7 +86,7 @@ var TouchLayer_SwipeController = function (options) {
 				if (deltaTime > swipeTime) {		
 					stopped = true;
 	
-				} else if (absDeltaX > swipeThreshold && absDeltaX > absDeltaY) {
+				} else if (!stopped && absDeltaX > swipeThreshold && absDeltaX > absDeltaY) {
 					// If this is a swipe, a scroll is not possible anymore
 					info = {
 							direction: (deltaX < 0) ? 'left' : 'right',
@@ -106,7 +106,7 @@ var TouchLayer_SwipeController = function (options) {
 						}
 					}
 					stopped = true;
-				} else if (swipeVertical && absDeltaY > swipeThreshold && absDeltaY > absDeltaX) {
+				} else if (!stopped && swipeVertical && absDeltaY > swipeThreshold && absDeltaY > absDeltaX) {
 					info = {
 							direction: (deltaY < 0) ? 'up' : 'down',
 							distance: absDeltaY,
