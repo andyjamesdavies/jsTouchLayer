@@ -2,12 +2,6 @@ module.exports = function(grunt) {
 
 	// Project configuration.
 	grunt.initConfig({
-		concat: {
-			dist: {
-				src: ['js/TouchLayerController.js', 'js/TapController.js', 'js/DragController.js', 'js/SwipeController.js', 'js/touchLayer.js'],
-				dest: 'jsTouchLayer.min.js'
-			}
-		},
 		min: {
 			dist: {
 				src: ['js/TouchLayerController.js', 'js/TapController.js', 'js/DragController.js', 'js/SwipeController.js', 'js/touchLayer.js'],
